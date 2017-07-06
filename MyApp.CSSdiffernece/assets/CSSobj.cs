@@ -58,7 +58,7 @@ namespace MyApp.CSSdiffernece.assets
         }
         private void addRules(string rulesStr, string media)
         {
-            var allRules = Regex.Split(rulesStr, @"}\r\n\t?").Where(
+            var allRules = Regex.Split(rulesStr, @"}\r?\n{0,}\t?").Where(
                 s => !String.IsNullOrEmpty(s.Trim())).ToList<string>();
             var length = allRules.Count;
 
