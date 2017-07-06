@@ -66,7 +66,7 @@ namespace MyApp.CSSdiffernece
             if (openFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 obj = openCSS();
-                obj.init();                
+                obj.init();
             }
             return obj;
         }
@@ -114,6 +114,8 @@ namespace MyApp.CSSdiffernece
                 }
                 var eqNum = objA.CSSrules[i].selectorEqTo;
                 if (!(objA.CSSrules[i].hasRules.Any(x => x == false) || objB.CSSrules[eqNum].hasRules.Any(x => x == false))) continue;
+                if (objA.CSSrules[i].Media != null)
+                    sb.Append("@media " + objA.CSSrules[i].Media + "{\r\n");
                 sb.Append(string.Join(",\r\n", objA.CSSrules[i].Selector))
                     .Append(" {\r\n\t");
                 for (int j = 0; j < objA.CSSrules[i].Rules.Count(); j++)
@@ -127,6 +129,8 @@ namespace MyApp.CSSdiffernece
                     sb.Append("\r\n+\t" + objB.CSSrules[eqNum].Rules[j]);
                 }
                 sb.Append("\r\n\t}\r\n");
+                if (objA.CSSrules[i].Media != null)
+                    sb.Append("}");
             }
             for (int i = 0, lengthB = objB.CSSrules.Count(); i < lengthB; i++)
             {
@@ -159,7 +163,7 @@ namespace MyApp.CSSdiffernece
             string footer = isMinus ? "--------------------------" : "+++++++++++++++++++++++";
             sb.Append("\r\n/*" + header + "*/" + "\r\n");
             if (objRule.Media != null)
-                sb.Append("@media "+objRule.Media + "{\r\n");
+                sb.Append("@media " + objRule.Media + "{\r\n");
             sb.Append(string.Join(",\r\n", objRule.Selector))
                 .Append(" {\r\n\t")
                 .Append(string.Join("\r\n\t", objRule.Rules))
