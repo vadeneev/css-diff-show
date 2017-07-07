@@ -71,8 +71,8 @@ namespace MyApp.CSSdiffernece.assets
                 if (tempRule == null || tempRule.Length < 2) continue;                
                 if (tempRule[0].ToLower().Trim() != "content")                
                 {
-                    tempRule[1] = Regex.Replace(tempRule[1], @"^|(\s)(\.\d+)", " 0$1");
-                    tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{2})", "#$1$1");
+                    //tempRule[1] = Regex.Replace(tempRule[1], @"^|(\s)(\.\d+)", " 0$1");
+                    //tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{2})", "#$1$1");
                     tempRule[1].ToLower();
                 }
                     rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
