@@ -66,9 +66,16 @@ namespace MyApp.CSSdiffernece.assets
             var length = clearedRules.Count();
             for(int i = 0; i < length; i++)
             {
-                var tempRule = clearedRules[i].Split(':').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();
-                if (tempRule == null || tempRule.Length < 2) continue;
-                rules.Add( new cssRule(textNormalize(tempRule[0]), textNormalize(tempRule[1])));
+                //todo: esccape content: ":;";
+                var tempRule = clearedRules[i].Split(':').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                
+                if (tempRule == null || tempRule.Length < 2) continue;                
+                if (tempRule[0].ToLower().Trim() != "content")                
+                {
+                    tempRule[1] = Regex.Replace(tempRule[1], @"^|(\s)(\.\d+)", " 0$1");
+                    tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{2})", "#$1$1");
+                    tempRule[1].ToLower();
+                }
+                    rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
                 
             }
             hasRules = new bool[rules.Count];
@@ -79,6 +86,14 @@ namespace MyApp.CSSdiffernece.assets
         }
         public void addSelectors(IEnumerable<string> selectorVal, string media)
         {
+            /*
+             * selector splitter for future
+             * ([#.>+~\[\s]+)[-\w\]\d]+ 
+             * don't forget to Trim result
+             * will need to generate Less or SCSS or Stylus
+             * !!!!!!!! NEED NEW HASH RECALCULATION SYSTEM
+             * !!!!!!!! NEED SELECTOR + RULES CLEANER
+                 */
             Media = media == null? media : normalizeMedia(media);
             selectorVal = selectorVal.Select(x => normalizeSelector(x)).ToList<string>();
             Selector.AddRange(selectorVal);
