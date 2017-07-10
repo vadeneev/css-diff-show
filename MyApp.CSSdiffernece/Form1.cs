@@ -74,27 +74,32 @@ namespace MyApp.CSSdiffernece
         {
             int lengthA = objA.CSSrules.Count();
             for (int i = 0; i < lengthA; i++)
-            {
-                int sameRule = objB.CSSrules.FindIndex(x => x.isChecked == false && x.selectorHASH == objA.CSSrules[i].selectorHASH);
-                if (sameRule == -1) continue;
-                SelectorRule objBcur = objB.CSSrules[sameRule];
-                objBcur.selectorEqTo = i;
-                objBcur.isChecked = true;
-                SelectorRule objAcur = objA.CSSrules[i];
-                objAcur.selectorEqTo = sameRule;
-                objAcur.isChecked = true;
-                int lengthRules = objAcur.Rules.Count();
-                for (var j = 0; j < lengthRules; j++)
-                {
-                    string key = objAcur.Rules[j].name;
-                    var foundIndex = objBcur.Rules.FindAll(x => x.name == key);
-                    if (foundIndex == null) continue;
-                    for (int k = 0; k < foundIndex.Count(); k++)
+            {                
+                var result = Enumerable.Range(0, objB.CSSrules.Count)
+                            .Where(t => objB.CSSrules[t].selectorHASH == objA.CSSrules[i].selectorHASH)
+                            .ToList();
+                if (!result.Any()) continue;
+                foreach(int fRule in result)
+                {                    
+                    SelectorRule objBcur = objB.CSSrules[fRule];
+                    objBcur.selectorEqTo = i;
+                    objBcur.isChecked = true;
+                    SelectorRule objAcur = objA.CSSrules[i];
+                    objAcur.selectorEqTo = fRule;
+                    objAcur.isChecked = true;
+                    int lengthRules = objAcur.Rules.Count();
+                    for (var j = 0; j < lengthRules; j++)
                     {
-                        if (foundIndex[k].value != objAcur.Rules[j].value) continue;
-                        int index = objBcur.Rules.FindIndex(x => x == foundIndex[k]);
-                        objBcur.hasRules[index] = true;
-                        objAcur.hasRules[j] = true;
+                        string key = objAcur.Rules[j].name;
+                        var foundIndex = objBcur.Rules.FindAll(x => x.name == key);
+                        if (foundIndex == null) continue;
+                        for (int k = 0; k < foundIndex.Count(); k++)
+                        {
+                            if (foundIndex[k].value != objAcur.Rules[j].value) continue;
+                            int index = objBcur.Rules.FindIndex(x => x == foundIndex[k]);
+                            objBcur.hasRules[index] = true;
+                            objAcur.hasRules[j] = true;
+                        }
                     }
                 }
             }

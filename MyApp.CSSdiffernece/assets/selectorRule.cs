@@ -70,10 +70,11 @@ namespace MyApp.CSSdiffernece.assets
                 var tempRule = clearedRules[i].Split(':').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                
                 if (tempRule == null || tempRule.Length < 2) continue;                
                 if (tempRule[0].ToLower().Trim() != "content")                
-                {
-                    //tempRule[1] = Regex.Replace(tempRule[1], @"^|(\s)(\.\d+)", " 0$1");
-                    //tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{2})", "#$1$1");
-                    tempRule[1].ToLower();
+                {                                                       
+                    tempRule[1] = Regex.Replace(tempRule[1], @"(^0|\s0+|(\()0+|(,)0+)(\.\d+)", " $2$3$4");                    
+                    tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{5})", "#$2$2$2");
+                    tempRule[1] = Regex.Replace(tempRule[1], @"(\(\s?|\s?\)\s?|\s?,\s?)", " $1 ");
+                    tempRule[1] = tempRule[1].ToLower();
                 }
                     rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
                 
