@@ -46,6 +46,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="assets\CSSobj.cs" />
+    <Compile Include="assets\SaveHelper.cs" />
     <Compile Include="assets\selectorRule.cs" />
     <Compile Include="Form1.cs">
       <SubType>Form</SubType>

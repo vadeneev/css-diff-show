@@ -50,7 +50,7 @@ namespace MyApp.CSSdiffernece
             if (saveFileDialog1.ShowDialog() == DialogResult.OK)
             {
                 filePath = saveFileDialog1.InitialDirectory + saveFileDialog1.FileName;
-                saveFile(filePath);
+                SaveHelper.saveFile(filePath, objA, objB, comboBox1.SelectedItem.ToString());
             }
         }
         private void showBtn()
@@ -58,6 +58,8 @@ namespace MyApp.CSSdiffernece
             if (objA != null && objB != null)
             {
                 button3.Enabled = true;
+                comboBox1.Enabled = true;
+                comboBox1.Text = "Full export";
             }
         }
         private CSSobj openAndInit()
@@ -74,13 +76,13 @@ namespace MyApp.CSSdiffernece
         {
             int lengthA = objA.CSSrules.Count();
             for (int i = 0; i < lengthA; i++)
-            {                
+            {
                 var result = Enumerable.Range(0, objB.CSSrules.Count)
                             .Where(t => objB.CSSrules[t].selectorHASH == objA.CSSrules[i].selectorHASH)
                             .ToList();
                 if (!result.Any()) continue;
-                foreach(int fRule in result)
-                {                    
+                foreach (int fRule in result)
+                {
                     SelectorRule objBcur = objB.CSSrules[fRule];
                     objBcur.selectorEqTo = i;
                     objBcur.isChecked = true;
@@ -103,80 +105,10 @@ namespace MyApp.CSSdiffernece
                     }
                 }
             }
-        }
+        }       
+        private void comboBox1_SelectedIndexChanged(object sender, EventArgs e)
+        {
 
-        private void saveFile(string filePath)
-        {
-            StringBuilder sb = new StringBuilder();
-            var lengthA = objA.CSSrules.Count();
-            sb.Append(addLegenda());
-            for (int i = 0; i < lengthA; i++)
-            {
-                if (objA.CSSrules[i].selectorEqTo == -1)
-                {
-                    sb.Append(appendSelector(objA.CSSrules[i], true));
-                    continue;
-                }
-                var eqNum = objA.CSSrules[i].selectorEqTo;
-                if (!(objA.CSSrules[i].hasRules.Any(x => x == false) || objB.CSSrules[eqNum].hasRules.Any(x => x == false))) continue;
-                if (objA.CSSrules[i].Media != null)
-                    sb.Append("@media " + objA.CSSrules[i].Media + "{\r\n");
-                sb.Append(string.Join(",\r\n", objA.CSSrules[i].Selector))
-                    .Append(" {\r\n\t");
-                for (int j = 0; j < objA.CSSrules[i].Rules.Count(); j++)
-                {
-                    if (objA.CSSrules[i].hasRules[j]) continue;
-                    sb.Append("\r\n-\t" + objA.CSSrules[i].Rules[j]);
-                }
-                for (int j = 0; j < objB.CSSrules[eqNum].Rules.Count(); j++)
-                {
-                    if (objB.CSSrules[eqNum].hasRules[j]) continue;
-                    sb.Append("\r\n+\t" + objB.CSSrules[eqNum].Rules[j]);
-                }
-                sb.Append("\r\n\t}\r\n");
-                if (objA.CSSrules[i].Media != null)
-                    sb.Append("}");
-            }
-            for (int i = 0, lengthB = objB.CSSrules.Count(); i < lengthB; i++)
-            {
-                if (objB.CSSrules[i].selectorEqTo == -1)
-                {
-                    sb.Append(appendSelector(objB.CSSrules[i], false));
-                    continue;
-                }
-            }
-            System.IO.File.WriteAllText(filePath, sb.ToString());
-        }
-        private StringBuilder addLegenda()
-        {
-            StringBuilder sb = new StringBuilder();
-            sb.AppendLine("DESCRIPTION:\r\n");
-            sb.AppendLine("\tSign:\t'-' means - you must delete this rules or selectors from file: " + objA.FilePath + "\r\n");
-            sb.AppendLine("\tSign:\t'+' means - you must add this rules or selectors to file: " + objA.FilePath + "\r\n");
-            sb.AppendLine("###################################################################\r\n");
-            sb.AppendLine("First file:\t" + objA.FilePath);
-            sb.AppendLine("Second file:\t" + objB.FilePath);
-            sb.AppendLine("###################################################################\r\n");
-            return sb;
-        }
-        private StringBuilder appendSelector(SelectorRule objRule, bool isMinus)
-        {
-            StringBuilder sb = new StringBuilder();
-            string header = isMinus ?
-                "---------------exists in first file, but not exists in second---------------" :
-                "+++++++++++++++++   not exists in first file, but exists in second++++++++++++";
-            string footer = isMinus ? "--------------------------" : "+++++++++++++++++++++++";
-            sb.Append("\r\n/*" + header + "*/" + "\r\n");
-            if (objRule.Media != null)
-                sb.Append("@media " + objRule.Media + "{\r\n");
-            sb.Append(string.Join(",\r\n", objRule.Selector))
-                .Append(" {\r\n\t")
-                .Append(string.Join("\r\n\t", objRule.Rules))
-                .Append("\r\n\t}\r\n");
-            if (objRule.Media != null)
-                sb.Append("}");
-            sb.Append("\r\n/*" + footer + "*/" + "\r\n");
-            return sb;
         }
     }
 }

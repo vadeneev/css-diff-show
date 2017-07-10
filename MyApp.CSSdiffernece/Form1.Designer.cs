@@ -36,6 +36,7 @@
             this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
             this.label1 = new System.Windows.Forms.Label();
             this.label2 = new System.Windows.Forms.Label();
+            this.comboBox1 = new System.Windows.Forms.ComboBox();
             this.SuspendLayout();
             // 
             // openFileDialog1
@@ -76,11 +77,11 @@
             // button4
             // 
             this.button4.Enabled = false;
-            this.button4.Location = new System.Drawing.Point(12, 159);
+            this.button4.Location = new System.Drawing.Point(12, 204);
             this.button4.Name = "button4";
             this.button4.Size = new System.Drawing.Size(191, 42);
             this.button4.TabIndex = 4;
-            this.button4.Text = "export";
+            this.button4.Text = "EXPORT";
             this.button4.UseVisualStyleBackColor = true;
             this.button4.Click += new System.EventHandler(this.button4_Click);
             // 
@@ -88,7 +89,7 @@
             // 
             this.label1.AutoSize = true;
             this.label1.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F);
-            this.label1.Location = new System.Drawing.Point(10, 218);
+            this.label1.Location = new System.Drawing.Point(10, 258);
             this.label1.Name = "label1";
             this.label1.Size = new System.Drawing.Size(95, 12);
             this.label1.TabIndex = 5;
@@ -98,17 +99,34 @@
             // 
             this.label2.AutoSize = true;
             this.label2.Font = new System.Drawing.Font("Microsoft Sans Serif", 6.25F);
-            this.label2.Location = new System.Drawing.Point(119, 218);
+            this.label2.Location = new System.Drawing.Point(119, 258);
             this.label2.Name = "label2";
             this.label2.Size = new System.Drawing.Size(84, 12);
             this.label2.TabIndex = 6;
             this.label2.Text = "vadeneev@mail.ru";
             // 
+            // comboBox1
+            // 
+            this.comboBox1.DropDownStyle = System.Windows.Forms.ComboBoxStyle.DropDownList;
+            this.comboBox1.Enabled = false;
+            this.comboBox1.FormattingEnabled = true;
+            this.comboBox1.Items.AddRange(new object[] {
+            "Full export",
+            "Export errors at same selectors",
+            "Export not exist at #1",
+            "Export not exist at #2"});
+            this.comboBox1.Location = new System.Drawing.Point(13, 166);
+            this.comboBox1.Name = "comboBox1";
+            this.comboBox1.Size = new System.Drawing.Size(190, 21);
+            this.comboBox1.TabIndex = 7;
+            this.comboBox1.SelectedIndexChanged += new System.EventHandler(this.comboBox1_SelectedIndexChanged);
+            // 
             // Form1
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(215, 241);
+            this.ClientSize = new System.Drawing.Size(215, 273);
+            this.Controls.Add(this.comboBox1);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.label1);
             this.Controls.Add(this.button4);
@@ -132,6 +150,7 @@
         private System.Windows.Forms.SaveFileDialog saveFileDialog1;
         private System.Windows.Forms.Label label1;
         private System.Windows.Forms.Label label2;
+        private System.Windows.Forms.ComboBox comboBox1;
     }
 }
 
