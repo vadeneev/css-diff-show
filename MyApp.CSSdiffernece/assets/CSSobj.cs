@@ -68,7 +68,7 @@ namespace MyApp.CSSdiffernece.assets
                 var pair = Regex.Split(allRules[i], "{\r?\n?\t?");
                 tempRule.addSelectors(pair[0].Split(','), media);                
                 //todo: esccape content: ":;";
-                tempRule.addRules(Regex.Split(pair[1].Trim(), ";|(;?\r\n\t?)"));
+                tempRule.addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?"));
                 cssrules.Add(tempRule);
             }
         }

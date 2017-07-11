@@ -65,9 +65,8 @@ namespace MyApp.CSSdiffernece.assets
             var clearedRules = strRules.Where(s => !string.IsNullOrEmpty(s.Trim())).ToList<string>();
             var length = clearedRules.Count();
             for(int i = 0; i < length; i++)
-            {
-                //todo: esccape content: ":;";
-                var tempRule = clearedRules[i].Split(':').Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                
+            {                
+                var tempRule = Regex.Split(clearedRules[i], @"(?<rule>^[\w\d-]+\s?)(?::)", RegexOptions.ExplicitCapture).Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                 
                 if (tempRule == null || tempRule.Length < 2) continue;                
                 if (tempRule[0].ToLower().Trim() != "content")                
                 {                                                       

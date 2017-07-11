@@ -40,7 +40,7 @@ namespace MyApp.CSSdiffernece
 
         private void button3_Click(object sender, EventArgs e)
         {
-            proceedCssFiles(objA, objB);
+            proceedCompareCssFiles(objA, objB);
             button4.Enabled = true;
         }
 
@@ -72,7 +72,7 @@ namespace MyApp.CSSdiffernece
             }
             return obj;
         }
-        private void proceedCssFiles(CSSobj objA, CSSobj objB)
+        private void proceedCompareCssFiles(CSSobj objA, CSSobj objB)
         {
             int lengthA = objA.CSSrules.Count();
             for (int i = 0; i < lengthA; i++)
