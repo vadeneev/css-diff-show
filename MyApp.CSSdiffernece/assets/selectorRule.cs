@@ -66,9 +66,9 @@ namespace MyApp.CSSdiffernece.assets
             var length = clearedRules.Count();
             for(int i = 0; i < length; i++)
             {                
-                var tempRule = Regex.Split(clearedRules[i], @"(?<rule>^[\w\d-]+\s?)(?::)", RegexOptions.ExplicitCapture).Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                 
+                var tempRule = Regex.Split(clearedRules[i].Trim(), @"(?<rule>^[\w\d-]+\s?)(?::)", RegexOptions.ExplicitCapture).Where(s => !string.IsNullOrEmpty(s.Trim())).Select(s => s.Trim()).ToArray<string>();                 
                 if (tempRule == null || tempRule.Length < 2) continue;                
-                if (tempRule[0].ToLower().Trim() != "content")                
+                if (tempRule[0].ToLower().Trim() != "content")
                 {                                                       
                     tempRule[1] = Regex.Replace(tempRule[1], @"(^0|\s0+|(\()0+|(,)0+)(\.\d+)", " $2$3$4");                    
                     tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{5})", "#$2$2$2");
@@ -104,7 +104,8 @@ namespace MyApp.CSSdiffernece.assets
         }
         private string textNormalize(string str)
         {
-            return Regex.Replace(str, @"\s{2,}", " ").Trim();
+            str = Regex.Replace(str, @"\s{2,}", " ").Trim();
+            return Regex.Replace(str, ";$", "");
         }
         private string normalizeMedia(string str)
         {
