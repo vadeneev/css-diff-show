@@ -52,7 +52,7 @@ namespace MyApp.CSSdiffernece.assets
             string mediaPtrn = @"@media\s{1}([\w\W\s]*?)\{([\w\W]*?)\}[\r\n\t\s]{0,}\}";
             foreach (Match m in Regex.Matches(cssContent, mediaPtrn))
             {                
-                addRules(m.Groups[2].Value, m.Groups[1].Value);                
+                addRules(m.Groups[2].Value, m.Groups[1].Value);
             }                        
             addRules(Regex.Replace(cssContent, mediaPtrn, ""), null);                
         }
@@ -66,9 +66,8 @@ namespace MyApp.CSSdiffernece.assets
             {
                 var tempRule = new SelectorRule();
                 var pair = Regex.Split(allRules[i], "{\r?\n?\t?");
-                tempRule.addSelectors(pair[0].Split(','), media);                
-                //todo: esccape content: ":;";
-                tempRule.addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?"));
+                tempRule.addSelectors(pair[0].Split(','), media);
+                tempRule.addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?|\r?\n\t?"));
                 cssrules.Add(tempRule);
             }
         }

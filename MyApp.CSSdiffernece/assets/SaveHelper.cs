@@ -58,8 +58,8 @@ namespace MyApp.CSSdiffernece.assets
         {
             StringBuilder sb = new StringBuilder();
             sb.Append(addLegenda(obj_1, obj_2));
-            sb.Append(formAnswerSelectors(obj_1));
-            sb.Append(formAnswerSelectors(obj_2, true, true));
+            sb.Append(formAnswerSelectors(obj_2));
+            sb.Append(formAnswerSelectors(obj_1, true, true));
             sb.Append(formAnswerRules(obj_1, obj_2));
             return sb;
         }
@@ -87,10 +87,10 @@ namespace MyApp.CSSdiffernece.assets
                     System.IO.File.WriteAllText(filePath, formRules(objA, objB).ToString());
                     break;
                 case "Export not exist at #1":
-                    System.IO.File.WriteAllText(filePath, formSelector(objA, false, true).ToString());
+                    System.IO.File.WriteAllText(filePath, formSelector(objB, false, true).ToString());
                     break;
                 case "Export not exist at #2":
-                    System.IO.File.WriteAllText(filePath, formSelector(objB, false, false).ToString());
+                    System.IO.File.WriteAllText(filePath, formSelector(objA, false, false).ToString());
                     break;
                 default:
                     System.IO.File.WriteAllText(filePath, formFull(objA, objB).ToString());

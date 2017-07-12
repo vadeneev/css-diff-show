@@ -72,10 +72,16 @@ namespace MyApp.CSSdiffernece.assets
                 {                                                       
                     tempRule[1] = Regex.Replace(tempRule[1], @"(^0|\s0+|(\()0+|(,)0+)(\.\d+)", " $2$3$4");                    
                     tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{5})", "#$2$2$2");
-                    tempRule[1] = Regex.Replace(tempRule[1], @"(\(\s?|\s?\)\s?|\s?,\s?)", " $1 ");
+                    tempRule[1] = Regex.Replace(tempRule[1], @"(\(\s?|\s?\)\s?|\s?,\s?)", " $1 ");                    
                     tempRule[1] = tempRule[1].ToLower();
+                    /*
+                     * experimental substitution for color
+                     */
+                    tempRule[1] = tempRule[1].Replace("white", "#fff");
+                    tempRule[1] = tempRule[1].Replace("black", "#000");
+                    //
                 }
-                    rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
+                rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
                 
             }
             hasRules = new bool[rules.Count];
@@ -95,10 +101,11 @@ namespace MyApp.CSSdiffernece.assets
              * !!!!!!!! NEED SELECTOR + RULES CLEANER
                  */
             Media = media == null? media : normalizeMedia(media);
-            selectorVal = selectorVal.Select(x => normalizeSelector(x)).ToList<string>();
-            Selector.AddRange(selectorVal);
+            var selectors = selectorVal.Select(x => normalizeSelector(x)).ToList<string>();
+            selectors.Sort();
+            Selector.AddRange(selectors);
             var sha1 = System.Security.Cryptography.SHA1.Create();
-            byte[] buf = Encoding.UTF8.GetBytes(string.Join(",", selectorVal) + Media);
+            byte[] buf = Encoding.UTF8.GetBytes(string.Join(",", selectors) + Media);
             byte[] hash = sha1.ComputeHash(buf, 0, buf.Length); 
             selectorHASH = BitConverter.ToString(hash).Replace("-", "");
         }
