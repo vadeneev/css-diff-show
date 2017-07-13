@@ -65,10 +65,15 @@ namespace MyApp.CSSdiffernece.assets
             for (int i = 0; i < length; i++)
             {
                 var tempRule = new SelectorRule();
-                var pair = Regex.Split(allRules[i], "{\r?\n?\t?");
+                var pair = Regex.Split(allRules[i], "{\r?\n?\t?");                
                 tempRule.addSelectors(pair[0].Split(','), media);
-                tempRule.addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?|\r?\n\t?"));
-                cssrules.Add(tempRule);
+                int foundIndex = CSSrules.FindIndex(x => x.selectorHASH == tempRule.selectorHASH);
+                if (foundIndex < 0){
+                    tempRule.addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?|\r?\n\t?"));
+                    cssrules.Add(tempRule);
+                    continue;
+                }
+                cssrules[foundIndex].addRules(Regex.Split(pair[1].Trim(), "(?<=\");|;\r?\n\t?|\r?\n\t?"));
             }
         }
     }

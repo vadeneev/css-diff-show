@@ -102,12 +102,13 @@ namespace MyApp.CSSdiffernece.assets
                  */
             Media = media == null? media : normalizeMedia(media);
             var selectors = selectorVal.Select(x => normalizeSelector(x)).ToList<string>();
-            selectors.Sort();
-            Selector.AddRange(selectors);
+            selectors.Sort();                        
             var sha1 = System.Security.Cryptography.SHA1.Create();
             byte[] buf = Encoding.UTF8.GetBytes(string.Join(",", selectors) + Media);
             byte[] hash = sha1.ComputeHash(buf, 0, buf.Length); 
             selectorHASH = BitConverter.ToString(hash).Replace("-", "");
+            
+            Selector.AddRange(selectors);
         }
         private string textNormalize(string str)
         {
