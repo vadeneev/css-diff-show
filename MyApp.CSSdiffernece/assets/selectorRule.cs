@@ -1,4 +1,5 @@
-﻿using System;
+﻿using MyApp.CSSdiffernece.assets.helper;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -74,12 +75,7 @@ namespace MyApp.CSSdiffernece.assets
                     tempRule[1] = Regex.Replace(tempRule[1], @"#(([\w\d])\2{5})", "#$2$2$2");
                     tempRule[1] = Regex.Replace(tempRule[1], @"(\(\s?|\s?\)\s?|\s?,\s?)", " $1 ");                    
                     tempRule[1] = tempRule[1].ToLower();
-                    /*
-                     * experimental substitution for color
-                     */
-                    tempRule[1] = tempRule[1].Replace("white", "#fff");
-                    tempRule[1] = tempRule[1].Replace("black", "#000");
-                    //
+                    tempRule[1] = SubstituteRules.proceed(incomeRuleValue: tempRule[1], incomeRule: tempRule[0]);
                 }
                 rules.Add( new cssRule(textNormalize(tempRule[0]).ToLower(), textNormalize(tempRule[1]).Trim()));
                 
